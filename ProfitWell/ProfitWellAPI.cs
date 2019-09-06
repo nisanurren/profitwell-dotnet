@@ -9,7 +9,7 @@ namespace ProfitWell
 {
     public class ProfitWellAPI
     {
-        private static readonly HttpClient client = new HttpClient();
+        private readonly HttpClient client;
 
         /// <summary>
         /// Init ProfitWellAPI
@@ -18,6 +18,11 @@ namespace ProfitWell
         /// <param name="Test">Set true to use mock server</param>
         public ProfitWellAPI(string APIKey, bool Test = false)
         {
+            if(client== null)
+            {
+                client = new HttpClient();
+            }
+
             client.DefaultRequestHeaders.Clear();
             if (Test)
             {
@@ -73,6 +78,10 @@ namespace ProfitWell
                 var jsonResponse = await result.Content.ReadAsStringAsync();
 
                 var response = Newtonsoft.Json.JsonConvert.DeserializeObject<CreateSubscriptionResponseModel>(jsonResponse);
+                if (response == null)
+                {
+                    response = new CreateSubscriptionResponseModel();
+                }
                 response.IsSuccessfull = result.IsSuccessStatusCode;
                 return response;
             }
@@ -106,8 +115,13 @@ namespace ProfitWell
                 var jsonResponse = await result.Content.ReadAsStringAsync();
 
                 var response = Newtonsoft.Json.JsonConvert.DeserializeObject<UpdateSubscriptionResponseModel>(jsonResponse);
+                if (response == null)
+                {
+                    response = new UpdateSubscriptionResponseModel();
+                }
                 response.IsSuccessfull = result.IsSuccessStatusCode;
                 return response;
+
             }
             catch (Exception e)
             {
@@ -136,6 +150,10 @@ namespace ProfitWell
                 var jsonResponse = await result.Content.ReadAsStringAsync();
 
                 var response = Newtonsoft.Json.JsonConvert.DeserializeObject<ChurnSubscriptionResponseModel>(jsonResponse);
+                if (response == null)
+                {
+                    response = new ChurnSubscriptionResponseModel();
+                }
                 response.IsSuccessfull = result.IsSuccessStatusCode;
                 return response;
             }
@@ -282,6 +300,10 @@ namespace ProfitWell
                 var jsonResponse = await result.Content.ReadAsStringAsync();
 
                 var response = Newtonsoft.Json.JsonConvert.DeserializeObject<GetPlanIdsResponseModel>(jsonResponse);
+                if (response == null)
+                {
+                    response = new GetPlanIdsResponseModel();
+                }
                 response.IsSuccessfull = result.IsSuccessStatusCode;
 
                 return response;
@@ -334,6 +356,10 @@ namespace ProfitWell
                 var jsonResponse = await result.Content.ReadAsStringAsync();
 
                 var response = Newtonsoft.Json.JsonConvert.DeserializeObject<GetCompanySettingsResponseModel>(jsonResponse);
+                if (response == null)
+                {
+                    response = new GetCompanySettingsResponseModel();
+                }
                 response.IsSuccessfull = result.IsSuccessStatusCode;
 
                 return response;
